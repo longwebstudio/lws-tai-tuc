@@ -1,0 +1,50 @@
+name: quasar-pwa-build
+run-name: Quasar build PWA
+
+on:
+  push:
+    branches:
+      - "main" # Thay 'master' bằng tên nhánh của bạn nếu cần
+
+    # Allows you to run this workflow manually from the Actions tab
+    workflow_dispatch:
+
+# Add write workflow permissions
+permissions:
+  contents: write
+
+# Allow one concurrent deployment
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20" # Hoặc phiên bản Node.js mà bạn đang sử dụng
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Create .env file
+        run: |
+          touch .env
+          echo API_BASE_URL=${{ secrets.API_BASE_URL }} >> .env
+          # Thêm các biến môi trường khác nếu cần
+
+      - name: Build app
+        run: npm run build
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages # Nhánh đích để triển khai
+          folder: dist/pwa # Thư mục chứa các tệp tin đã build
