@@ -9,21 +9,17 @@ const routes = [
         component: () => import("pages/DanhSachBaoHiem.vue"),
       },
       {
-        path: "them-bao-hiem",
-        name: "them-bao-hiem",
-        component: () => import("pages/ThemBaoHiem.vue"),
+        path: "khach-hang-hop-dong",
+        component: () => import("pages/CustomerContract.vue"),
       },
-      {
-        path: "chinh-sua-bao-hiem",
-        name: "chinh-sua-bao-hiem",
-        component: () => import("pages/ChinhSuaBaoHiem.vue"),
-      },
-      // ... other routes if you have any
+      { path: "tai-tuc", component: () => import("pages/Renewal.vue") },
+      // ... các trang khác nếu cần
     ],
   },
-
+  { path: "/dang-nhap", component: () => import("pages/Login.vue") },
   // Always leave this as last one,
   // but you can also remove it
+  // Luôn đặt route này ở cuối cùng
   {
     path: "/:catchAll(.*)*",
     component: () => import("pages/ErrorNotFound.vue"),

@@ -1,29 +1,38 @@
 <template>
-  <div class="fullscreen bg-blue text-white text-center q-pa-md flex flex-center">
-    <div>
-      <div style="font-size: 30vh">
-        404
+  <div class="error-not-found">
+    <div class="container">
+      <div class="row justify-center">
+        <div class="col-md-6">
+          <div class="q-pa-md">
+            <q-card>
+              <q-card-section class="text-center">
+                <div class="text-h3 q-mb-md">404</div>
+                <div class="text-h5 q-mb-lg">Không tìm thấy trang</div>
+                <q-btn color="primary" label="Quay về trang chủ" to="/" />
+              </q-card-section>
+            </q-card>
+          </div>
+        </div>
       </div>
-
-      <div class="text-h2" style="opacity:.4">
-        Oops. Nothing here...
-      </div>
-
-      <q-btn
-        class="q-mt-xl"
-        color="white"
-        text-color="blue"
-        unelevated
-        to="/"
-        label="Go Home"
-        no-caps
-      />
     </div>
   </div>
 </template>
 
-<script setup>
-defineOptions({
-  name: 'ErrorNotFound'
-});
+<script>
+export default {
+  name: "ErrorNotFound",
+};
 </script>
+
+<style lang="scss">
+.error-not-found {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+
+  .container {
+    max-width: 720px;
+  }
+}
+</style>

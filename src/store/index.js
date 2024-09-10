@@ -2,6 +2,9 @@ import { store } from "quasar/wrappers";
 import { createStore } from "vuex";
 
 import baohiem from "./baohiem";
+import khachHangModule from "./khachHang";
+import hopDongModule from "./hopDong";
+import taiTucModule from "./taiTuc";
 
 /*
  * If not building with SSR mode, you can
@@ -16,6 +19,10 @@ export default store(function (/* { ssrContext } */) {
   const Store = createStore({
     modules: {
       baohiem,
+      khachHang: khachHangModule,
+      hopDong: hopDongModule,
+      taiTuc: taiTucModule,
+      // ... các module khác
     },
 
     // enable strict mode (adds overhead!)
