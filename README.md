@@ -1,43 +1,57 @@
-# Quasar App (app-vite)
+# LWS Tái tục - Ứng dụng Quản lý Tái tục Bảo hiểm
 
-A Quasar Project
+**LWS Tái tục** là một ứng dụng web mạnh mẽ được xây dựng để hỗ trợ các đại lý bảo hiểm trong việc quản lý và theo dõi quy trình tái tục hợp đồng bảo hiểm cho khách hàng một cách hiệu quả. Với giao diện trực quan và các tính năng thông minh, ứng dụng giúp tối ưu hóa quy trình làm việc, tăng tỷ lệ tái tục và nâng cao chất lượng dịch vụ khách hàng.
 
-## Install the dependencies
+## Tính năng chính
 
-```bash
-yarn
-# or
-npm install
-```
+- **Quản lý khách hàng:**
 
-### Start the app in development mode (hot-code reloading, error reporting, etc.)
+  - Tạo, xem, sửa, xóa thông tin khách hàng.
+  - Tìm kiếm và lọc khách hàng theo nhiều tiêu chí (tên, số điện thoại, email, loại bảo hiểm).
+  - Thêm ghi chú cho từng khách hàng.
 
-```bash
-quasar dev
-```
+- **Quản lý hợp đồng bảo hiểm:**
 
-### Lint the files
+  - Tạo, xem, sửa, xóa thông tin hợp đồng.
+  - Theo dõi trạng thái hợp đồng (đang hoạt động, sắp hết hạn, hết hạn).
+  - Xem danh sách hợp đồng theo từng khách hàng.
 
-```bash
-yarn lint
-# or
-npm run lint
-```
+- **Tái tục bảo hiểm:**
 
-### Format the files
+  - Hiển thị danh sách khách hàng cần tái tục.
+  - Lọc danh sách theo loại bảo hiểm và trạng thái tái tục.
+  - Cập nhật trạng thái tái tục và thêm ghi chú cho từng khách hàng.
+  - Gửi thông báo tái tục tự động hoặc thủ công qua email hoặc SMS.
+  - Báo cáo tổng quan về tình hình tái tục (tổng số khách hàng, số lượng đã tái tục, tỷ lệ tái tục).
 
-```bash
-yarn format
-# or
-npm run format
-```
+- **Báo cáo:**
+  - Xuất danh sách khách hàng và hợp đồng dưới dạng file Excel hoặc PDF.
 
-### Build the app for production
+## Công nghệ sử dụng
 
-```bash
-quasar build
-```
+- **Frontend:**
 
-### Customize the configuration
+  - Quasar Framework (Vue.js)
+  - Axios
+  - Vuex
+  - Vue Router
 
-See [Configuring quasar.config.js](https://v2.quasar.dev/quasar-cli-vite/quasar-config-js).
+- **Backend:**
+  - Laravel
+  - MySQL/PostgreSQL/MariaDB
+
+## Cài đặt và chạy dự án
+
+**Yêu cầu:**
+
+- PHP >= 8.0
+- Composer
+- Node.js
+- npm hoặc yarn
+
+**Các bước:**
+
+1. **Clone dự án:**
+   ```bash
+   git clone [https://github.com/your-username/lws-tai-tuc.git](https://github.com/longwebstudio/lws-tai-tuc.git)
+   ```

@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout view="hHh lpR fFf">
     <q-header elevated>
       <q-toolbar>
         <q-btn
@@ -8,99 +8,85 @@
           round
           icon="menu"
           aria-label="Menu"
-          @click="toggleLeftDrawer"
+          @click="leftDrawerOpen = !leftDrawerOpen"
         />
 
-        <q-toolbar-title>
-          Quasar App
-        </q-toolbar-title>
-
-        <div>Quasar v{{ $q.version }}</div>
+        <q-toolbar-title class="absolute-center"> LWS Tái tục </q-toolbar-title>
       </q-toolbar>
     </q-header>
 
     <q-drawer
       v-model="leftDrawerOpen"
       show-if-above
+      :width="250"
       bordered
+      content-class="bg-grey-1"
     >
       <q-list>
-        <q-item-label
-          header
-        >
-          Essential Links
-        </q-item-label>
+        <q-item-label header>Điều hướng</q-item-label>
 
-        <EssentialLink
-          v-for="link in linksList"
-          :key="link.title"
-          v-bind="link"
-        />
+        <q-item
+          v-for="nav in navs"
+          :key="nav.label"
+          :to="nav.to"
+          exact
+          clickable
+          v-ripple
+        >
+          <q-item-section avatar>
+            <q-icon :name="nav.icon" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>{{ nav.label }}</q-item-label>
+          </q-item-section>
+        </q-item>
       </q-list>
     </q-drawer>
 
     <q-page-container>
       <router-view />
     </q-page-container>
+
+    <q-footer elevated v-if="$q.screen.lt.md">
+      <q-tabs>
+        <q-route-tab
+          v-for="nav in navs"
+          :key="nav.label"
+          :to="nav.to"
+          :icon="nav.icon"
+          :label="nav.label"
+        />
+      </q-tabs>
+    </q-footer>
   </q-layout>
 </template>
 
-<script setup>
-import { ref } from 'vue'
-import EssentialLink from 'components/EssentialLink.vue'
+<script>
+import { ref } from "vue";
 
-defineOptions({
-  name: 'MainLayout'
-})
+export default {
+  name: "MainLayout",
+  setup() {
+    const leftDrawerOpen = ref(false);
 
-const linksList = [
-  {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev'
-  },
-  {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework'
-  },
-  {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev'
-  },
-  {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev'
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev'
-  }
-]
+    const navs = [
+      {
+        label: "Khách hàng & Hợp đồng",
+        icon: "people",
+        to: "/khach-hang-hop-dong",
+      },
+      {
+        label: "Tái tục",
+        icon: "refresh",
+        to: "/tai-tuc",
+      },
+      // Thêm các mục điều hướng khác nếu cần
+    ];
 
-const leftDrawerOpen = ref(false)
-
-function toggleLeftDrawer () {
-  leftDrawerOpen.value = !leftDrawerOpen.value
-}
+    return {
+      leftDrawerOpen,
+      navs,
+    };
+  },
+};
 </script>
