@@ -18,6 +18,20 @@ export default {
     }
   },
 
+  async layDanhSachLoaiBaoHiem({ commit }) {
+    try {
+      const response = await api.get("/api/bao-hiem");
+      commit("SET_DANH_SACH_LOAI_BAO_HIEM", response.data);
+    } catch (error) {
+      console.error("Lỗi khi lấy danh sách loại bảo hiểm:", error);
+      Notify.create({
+        message: "Không thể lấy danh sách loại bảo hiểm. Vui lòng thử lại sau.",
+        color: "negative",
+        position: "top",
+      });
+    }
+  },
+
   capNhatTrangThaiTaiTuc({ commit }, trangThaiMoi) {
     commit("SET_TRANG_THAI_TAI_TUC", trangThaiMoi);
   },

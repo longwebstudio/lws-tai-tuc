@@ -35,6 +35,12 @@
           color="primary"
           @click="moDialogGuiThongBao"
         />
+        <q-btn
+          flat
+          label="Gia hạn"
+          color="primary"
+          @click="moDialogGiaHanHopDong"
+        />
       </q-card-actions>
     </q-form>
 
@@ -62,6 +68,16 @@
         </q-form>
       </q-card>
     </q-dialog>
+
+    <q-dialog v-model="dialogGiaHanHopDongMo" persistent>
+      <contract-form
+        :hop-dong="hopDongDangGiaHan"
+        :khach-hang-id="khachHang.id"
+        mode="gia-han"
+        @dong-dialog="dongDialogGiaHanHopDong"
+        @luu-thong-tin="xuLyGiaHanHopDongThanhCong"
+      />
+    </q-dialog>
   </q-card>
 </template>
 
@@ -69,8 +85,10 @@
 import { ref, computed, onMounted } from "vue";
 import { useStore } from "vuex";
 import { date } from "quasar";
+import ContractForm from "components/customer-contract/ContractForm.vue";
 
 export default {
+  components: { ContractForm },
   props: {
     khachHang: {
       type: Object,
@@ -85,11 +103,16 @@ export default {
     const dialogGuiThongBaoMo = ref(false);
     const phuongThucGui = ref(null);
     const noiDungThongBao = ref("");
+    const dialogGiaHanHopDongMo = ref(false);
+    const hopDongDangGiaHan = ref(null);
 
     const trangThaiTaiTucOptions = [
       "Chưa liên hệ",
       "Đã liên hệ",
-      "Đã tái tục",
+      "Đã thu tiền",
+      "Đã nộp BĐH",
+      "Gửi yêu cầu phát sinh",
+      "Phát sinh thành công BHXH",
       "Từ chối",
     ];
     const phuongThucGuiOptions = ["email", "sms"];
@@ -104,7 +127,7 @@ export default {
     };
 
     onMounted(() => {
-      ghiChu.value = props.khachHang.ghiChu || ""; // Lấy ghi chú từ prop hoặc đặt mặc định là rỗng
+      ghiChu.value = props.khachHang.ghiChu || "";
     });
 
     const capNhatTrangThai = () => {
@@ -132,6 +155,27 @@ export default {
       dialogGuiThongBaoMo.value = false;
     };
 
+    const moDialogGiaHanHopDong = () => {
+      hopDongDangGiaHan.value = store.getters["hopDong/getHopDongById"](
+        props.khachHang.hopDongId
+      );
+      dialogGiaHanHopDongMo.value = true;
+    };
+
+    const dongDialogGiaHanHopDong = () => {
+      dialogGiaHanHopDongMo.value = false;
+    };
+
+    const xuLyGiaHanHopDongThanhCong = () => {
+      // Cập nhật trạng thái tái tục thành "Đã tái tục" (hoặc trạng thái phù hợp)
+      emit("cap-nhat-thong-tin-tai-tuc", {
+        khachHangId: props.khachHang.id,
+        trangThaiMoi: "Đã tái tục",
+        ghiChu: "", // Hoặc cập nhật ghi chú nếu cần
+      });
+      dongDialogGiaHanHopDong();
+    };
+
     return {
       trangThaiTaiTuc,
       trangThaiTaiTucOptions,
@@ -146,6 +190,11 @@ export default {
       moDialogGuiThongBao,
       dongDialog,
       guiThongBao,
+      dialogGiaHanHopDongMo,
+      hopDongDangGiaHan,
+      moDialogGiaHanHopDong,
+      dongDialogGiaHanHopDong,
+      xuLyGiaHanHopDongThanhCong,
     };
   },
 };

@@ -80,7 +80,7 @@
 </template>
 
 <script>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { useStore } from "vuex";
 import CustomerList from "components/customer-contract/CustomerList.vue";
 import ContractList from "components/customer-contract/ContractList.vue";
@@ -88,6 +88,7 @@ import CustomerForm from "components/customer-contract/CustomerForm.vue";
 import ContractForm from "components/customer-contract/ContractForm.vue";
 
 export default {
+  name: "CustomerContract",
   components: {
     CustomerList,
     ContractList,
@@ -116,6 +117,11 @@ export default {
       }
     });
     const hopDongDangChon = computed(() => store.state.hopDong.hopDongDangChon);
+
+    onMounted(() => {
+      store.dispatch("khachHang/layDanhSachKhachHang");
+      store.dispatch("hopDong/layDanhSachHopDong");
+    });
 
     const chonKhachHang = (khachHang) => {
       store.dispatch("khachHang/chonKhachHang", khachHang);
@@ -196,11 +202,6 @@ export default {
       dongDialogHopDong,
       luuThongTinHopDong,
     };
-  },
-  mounted() {
-    const store = useStore();
-    store.dispatch("khachHang/layDanhSachKhachHang");
-    store.dispatch("hopDong/layDanhSachHopDong");
   },
 };
 </script>

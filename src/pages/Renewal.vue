@@ -140,22 +140,23 @@ export default {
       ).toFixed(2);
     });
 
-    const loaiBaoHiemOptions = [
-      "Tất cả",
-      "Bảo hiểm xã hội",
-      "Bảo hiểm y tế",
-      "Bảo hiểm thất nghiệp",
-    ];
+    const loaiBaoHiemOptions = computed(
+      () => store.state.taiTuc.loaiBaoHiemOptions
+    );
     const trangThaiTaiTucOptions = [
       "Tất cả",
       "Chưa liên hệ",
       "Đã liên hệ",
-      "Đã tái tục",
+      "Đã thu tiền",
+      "Đã nộp BĐH",
+      "Gửi yêu cầu phát sinh",
+      "Phát sinh thành công BHXH",
       "Từ chối",
     ];
 
     onMounted(() => {
       store.dispatch("taiTuc/layDanhSachKhachHangCanTaiTuc");
+      store.dispatch("taiTuc/layDanhSachLoaiBaoHiem");
     });
 
     const formatDate = (dateString) => {
