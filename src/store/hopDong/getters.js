@@ -33,4 +33,12 @@ export default {
       (hopDong) => hopDong.khachHangId === khachHangId
     );
   },
+  danhSachHopDongDaHetHan: (state) => {
+    const ngayHienTai = new Date();
+    return state.danhSachHopDong;
+    return state.danhSachHopDong.filter((hopDong) => {
+      const ngayKetThuc = new Date(hopDong.ngayKetThuc);
+      return ngayKetThuc < ngayHienTai;
+    });
+  },
 };

@@ -38,6 +38,14 @@
               icon="delete"
               @click.stop="xoaHopDong(hopDong.id)"
             />
+            <q-btn
+              size="12px"
+              flat
+              dense
+              round
+              icon="paid"
+              @click.stop="moDialogThuTien(hopDong.id)"
+            />
           </div>
         </q-item-section>
       </q-item>
@@ -46,17 +54,29 @@
         Không có hợp đồng nào.
       </div>
     </q-list>
+
+    <q-dialog v-model="dialogThuTienMo" persistent>
+      <thu-tien-form
+        :hop-dong-id="hopDongIdDangThuTien"
+        @dong-dialog="dongDialogThuTien"
+        @luu-thong-tin="xuLyThuTienThanhCong"
+      />
+    </q-dialog>
   </div>
 </template>
 
 <script>
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { useStore } from "vuex";
+import ThuTienForm from "components/customer-contract/ThuTienForm.vue";
 
 export default {
+  components: {
+    ThuTienForm,
+  },
   props: {
     khachHangId: {
-      type: Number, // Hoặc String, tùy thuộc vào kiểu dữ liệu của ID khách hàng
+      type: Number,
       required: true,
     },
     danhSachHopDong: {
@@ -75,6 +95,9 @@ export default {
       return khachHang ? khachHang.hoTen : "";
     });
 
+    const dialogThuTienMo = ref(false);
+    const hopDongIdDangThuTien = ref(null);
+
     const themHopDongMoi = () => {
       emit("them-hop-dong");
     };
@@ -87,11 +110,31 @@ export default {
       emit("xoa-hop-dong", hopDongId);
     };
 
+    const moDialogThuTien = (hopDongId) => {
+      hopDongIdDangThuTien.value = hopDongId;
+      dialogThuTienMo.value = true;
+    };
+
+    const dongDialogThuTien = () => {
+      dialogThuTienMo.value = false;
+    };
+
+    const xuLyThuTienThanhCong = () => {
+      // Sau khi thu tiền thành công, có thể cập nhật lại danh sách hợp đồng (nếu cần)
+      store.dispatch("hopDong/layDanhSachHopDong");
+      dongDialogThuTien();
+    };
+
     return {
       tenKhachHang,
       themHopDongMoi,
       suaHopDong,
       xoaHopDong,
+      dialogThuTienMo,
+      hopDongIdDangThuTien,
+      moDialogThuTien,
+      dongDialogThuTien,
+      xuLyThuTienThanhCong,
     };
   },
 };

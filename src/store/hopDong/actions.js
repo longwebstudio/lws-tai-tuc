@@ -17,6 +17,21 @@ export default {
     }
   },
 
+  async layDanhSachHopDongDaHetHan({ commit }) {
+    try {
+      const response = await api.get("/api/hop-dong/het-han");
+      commit("SET_DANH_SACH_HOP_DONG_DA_HET_HAN", response.data);
+    } catch (error) {
+      console.error("Lỗi khi lấy danh sách hợp đồng đã hết hạn:", error);
+      Notify.create({
+        message:
+          "Không thể lấy danh sách hợp đồng đã hết hạn. Vui lòng thử lại sau.",
+        color: "negative",
+        position: "top",
+      });
+    }
+  },
+
   chonHopDong({ commit }, hopDong) {
     commit("SET_HOP_DONG_DANG_CHON", hopDong);
   },

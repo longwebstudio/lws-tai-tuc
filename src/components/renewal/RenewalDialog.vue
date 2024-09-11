@@ -41,6 +41,7 @@
           color="primary"
           @click="moDialogGiaHanHopDong"
         />
+        <q-btn flat label="Thu tiền" color="primary" @click="moDialogThuTien" />
       </q-card-actions>
     </q-form>
 
@@ -78,6 +79,14 @@
         @luu-thong-tin="xuLyGiaHanHopDongThanhCong"
       />
     </q-dialog>
+
+    <q-dialog v-model="dialogThuTienMo" persistent>
+      <thu-tien-form
+        :hop-dong-id="khachHang.hopDongId"
+        @dong-dialog="dongDialogThuTien"
+        @luu-thong-tin="xuLyThuTienThanhCong"
+      />
+    </q-dialog>
   </q-card>
 </template>
 
@@ -86,9 +95,10 @@ import { ref, computed, onMounted } from "vue";
 import { useStore } from "vuex";
 import { date } from "quasar";
 import ContractForm from "components/customer-contract/ContractForm.vue";
+import ThuTienForm from "components/customer-contract/ThuTienForm.vue";
 
 export default {
-  components: { ContractForm },
+  components: { ContractForm, ThuTienForm },
   props: {
     khachHang: {
       type: Object,
@@ -105,6 +115,7 @@ export default {
     const noiDungThongBao = ref("");
     const dialogGiaHanHopDongMo = ref(false);
     const hopDongDangGiaHan = ref(null);
+    const dialogThuTienMo = ref(false);
 
     const trangThaiTaiTucOptions = [
       "Chưa liên hệ",
@@ -167,13 +178,29 @@ export default {
     };
 
     const xuLyGiaHanHopDongThanhCong = () => {
-      // Cập nhật trạng thái tái tục thành "Đã tái tục" (hoặc trạng thái phù hợp)
       emit("cap-nhat-thong-tin-tai-tuc", {
         khachHangId: props.khachHang.id,
         trangThaiMoi: "Đã tái tục",
-        ghiChu: "", // Hoặc cập nhật ghi chú nếu cần
+        ghiChu: "",
       });
       dongDialogGiaHanHopDong();
+    };
+
+    const moDialogThuTien = () => {
+      dialogThuTienMo.value = true;
+    };
+
+    const dongDialogThuTien = () => {
+      dialogThuTienMo.value = false;
+    };
+
+    const xuLyThuTienThanhCong = () => {
+      emit("cap-nhat-thong-tin-tai-tuc", {
+        khachHangId: props.khachHang.id,
+        trangThaiMoi: "Đã thu tiền",
+        ghiChu: "",
+      });
+      dongDialogThuTien();
     };
 
     return {
@@ -195,6 +222,10 @@ export default {
       moDialogGiaHanHopDong,
       dongDialogGiaHanHopDong,
       xuLyGiaHanHopDongThanhCong,
+      dialogThuTienMo,
+      moDialogThuTien,
+      dongDialogThuTien,
+      xuLyThuTienThanhCong,
     };
   },
 };

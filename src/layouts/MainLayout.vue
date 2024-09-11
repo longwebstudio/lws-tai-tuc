@@ -80,6 +80,11 @@ export default {
         icon: "refresh",
         to: "/tai-tuc",
       },
+      {
+        label: "Hợp đồng hết hạn",
+        icon: "event_busy", // Hoặc một icon khác phù hợp
+        to: "/hop-dong-het-han",
+      },
       // Thêm các mục điều hướng khác nếu cần
     ];
 

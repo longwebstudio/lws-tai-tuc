@@ -13,6 +13,10 @@ const routes = [
         component: () => import("pages/CustomerContract.vue"),
       },
       { path: "tai-tuc", component: () => import("pages/Renewal.vue") },
+      {
+        path: "/hop-dong-het-han",
+        component: () => import("pages/ExpiredContracts.vue"),
+      },
       // ... các trang khác nếu cần
     ],
   },

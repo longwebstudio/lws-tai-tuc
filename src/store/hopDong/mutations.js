@@ -21,4 +21,7 @@ export default {
       (hd) => hd.id !== hopDongId
     );
   },
+  SET_DANH_SACH_HOP_DONG_DA_HET_HAN(state, danhSachMoi) {
+    state.danhSachHopDongDaHetHan = danhSachMoi;
+  },
 };
