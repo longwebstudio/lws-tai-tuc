@@ -21,7 +21,12 @@ export default {
   async layDanhSachLoaiBaoHiem({ commit }) {
     try {
       const response = await api.get("/api/bao-hiem");
-      commit("SET_DANH_SACH_LOAI_BAO_HIEM", response.data);
+      // Chuyển đổi dữ liệu từ backend thành định dạng phù hợp cho QSelect
+      const loaiBaoHiemOptions = response.data.map((tenLoai) => ({
+        label: tenLoai,
+        value: tenLoai,
+      }));
+      commit("SET_DANH_SACH_LOAI_BAO_HIEM", loaiBaoHiemOptions);
     } catch (error) {
       console.error("Lỗi khi lấy danh sách loại bảo hiểm:", error);
       Notify.create({

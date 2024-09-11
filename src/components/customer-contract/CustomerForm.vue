@@ -5,6 +5,7 @@
     </q-card-section>
 
     <q-form @submit="submitForm" class="q-gutter-md">
+      <q-input v-model="form.maSoBhxh" label="Mã số BHXH" />
       <q-input
         v-model="form.hoTen"
         label="Họ và tên"
@@ -45,6 +46,7 @@ export default {
       soDienThoai: "",
       email: "",
       diaChi: "",
+      maSoBhxh: "", // Thêm trường maSoBhxh
     });
 
     onMounted(() => {

@@ -69,6 +69,7 @@
 
 <script>
 import { ref, computed } from "vue";
+import { useStore } from "vuex";
 
 export default {
   props: {
@@ -84,14 +85,13 @@ export default {
     "xoa-khach-hang",
   ],
   setup(props, { emit }) {
+    const store = useStore();
     const searchText = ref("");
     const filterLoaiBaoHiem = ref("Tất cả");
-    const loaiBaoHiemOptions = [
-      "Tất cả",
-      "Bảo hiểm xã hội",
-      "Bảo hiểm y tế",
-      "Bảo hiểm thất nghiệp", // ... Các loại bảo hiểm khác
-    ];
+
+    const loaiBaoHiemOptions = computed(
+      () => store.state.taiTuc.loaiBaoHiemOptions
+    );
 
     const danhSachKhachHangLoc = computed(() => {
       let ketQua = props.danhSachKhachHang;
@@ -107,10 +107,14 @@ export default {
       }
 
       if (filterLoaiBaoHiem.value !== "Tất cả") {
-        // Giả sử mỗi khách hàng có một mảng `loaiBaoHiem` chứa các loại bảo hiểm họ đã tham gia
-        ketQua = ketQua.filter((khachHang) =>
-          khachHang.loaiBaoHiem.includes(filterLoaiBaoHiem.value)
-        );
+        ketQua = ketQua.filter((khachHang) => {
+          // Lọc các hợp đồng của khách hàng theo loại bảo hiểm
+          const hopDongsLoc = khachHang.hop_dongs.filter(
+            (hopDong) => hopDong.loaiBaoHiem === filterLoaiBaoHiem.value
+          );
+          // Nếu có ít nhất một hợp đồng phù hợp, giữ lại khách hàng
+          return hopDongsLoc.length > 0;
+        });
       }
 
       return ketQua;

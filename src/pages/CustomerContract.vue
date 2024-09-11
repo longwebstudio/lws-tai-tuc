@@ -109,9 +109,10 @@ export default {
     );
     const danhSachHopDongTheoKhachHang = computed(() => {
       if (khachHangDangChon.value) {
-        return store.getters["hopDong/danhSachHopDongTheoKhachHangId"](
-          khachHangDangChon.value.id
-        );
+        return store.state.khachHang.khachHangDangChon.hop_dongs;
+        // return store.getters["hopDong/danhSachHopDongTheoKhachHangId"](
+        //   khachHangDangChon.value.id
+        // );
       } else {
         return [];
       }
