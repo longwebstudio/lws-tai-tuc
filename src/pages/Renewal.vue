@@ -3,9 +3,6 @@
     <div class="row q-col-gutter-md">
       <div class="col-12">
         <q-toolbar>
-          <q-btn flat round dense icon="menu" />
-          <q-toolbar-title>Tái tục Bảo hiểm</q-toolbar-title>
-
           <q-space />
 
           <q-select

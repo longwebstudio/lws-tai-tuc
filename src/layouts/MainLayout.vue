@@ -11,17 +11,18 @@
           @click="leftDrawerOpen = !leftDrawerOpen"
         />
 
-        <q-toolbar-title class="absolute-center"> LWS Tái tục </q-toolbar-title>
-        <div class="q-gutter-sm row items-center no-wrap">
-          <q-btn
-            v-if="isAuthenticated"
-            flat
-            round
-            dense
-            icon="logout"
-            @click="logout"
-          />
-        </div>
+        <q-toolbar-title>
+          {{ route.name }}
+        </q-toolbar-title>
+
+        <q-btn
+          v-if="isAuthenticated"
+          flat
+          round
+          dense
+          icon="logout"
+          @click="logout"
+        />
       </q-toolbar>
     </q-header>
 
@@ -106,6 +107,8 @@ export default {
       () => store.getters["auth/isAuthenticated"]
     );
 
+    const route = computed(() => router.currentRoute.value); // Lấy thông tin route hiện tại
+
     onMounted(() => {
       // ...
 
@@ -131,6 +134,7 @@ export default {
       navs,
       isAuthenticated,
       logout,
+      route,
     };
   },
 };

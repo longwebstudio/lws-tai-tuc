@@ -5,22 +5,25 @@ const routes = [
     children: [
       {
         path: "",
-        name: "TrangChu",
+        name: "Tái tục bảo hiểm",
         component: () => import("pages/Index.vue"),
         meta: { requiresAuth: true }, // Yêu cầu xác thực để truy cập trang chủ
       },
       {
         path: "khach-hang-hop-dong",
+        name: "Khách hàng & Hợp đồng",
         component: () => import("pages/CustomerContract.vue"),
         meta: { requiresAuth: true }, // Yêu cầu xác thực
       },
       {
         path: "tai-tuc",
+        name: "Tái tục",
         component: () => import("pages/Renewal.vue"),
         meta: { requiresAuth: true }, // Yêu cầu xác thực
       },
       {
         path: "hop-dong-het-han",
+        name: "Hợp đồng hết hạn",
         component: () => import("pages/ExpiredContracts.vue"),
         meta: { requiresAuth: true }, // Yêu cầu xác thực
       },

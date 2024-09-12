@@ -3,9 +3,9 @@
     <div class="row q-col-gutter-md">
       <div class="col-12">
         <q-toolbar>
-          <q-btn flat round dense icon="menu" />
+          <!-- <q-btn flat round dense icon="menu" />
           <q-toolbar-title>Quản lý Khách hàng & Hợp đồng</q-toolbar-title>
-
+-->
           <q-space />
 
           <q-btn
