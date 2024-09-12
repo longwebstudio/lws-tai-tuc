@@ -12,6 +12,16 @@
         />
 
         <q-toolbar-title class="absolute-center"> LWS Tái tục </q-toolbar-title>
+        <div class="q-gutter-sm row items-center no-wrap">
+          <q-btn
+            v-if="isAuthenticated"
+            flat
+            round
+            dense
+            icon="logout"
+            @click="logout"
+          />
+        </div>
       </q-toolbar>
     </q-header>
 
@@ -62,12 +72,16 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
+import { useRouter } from "vue-router";
+import { useStore } from "vuex";
 
 export default {
   name: "MainLayout",
   setup() {
     const leftDrawerOpen = ref(false);
+    const router = useRouter();
+    const store = useStore();
 
     const navs = [
       {
@@ -88,9 +102,35 @@ export default {
       // Thêm các mục điều hướng khác nếu cần
     ];
 
+    const isAuthenticated = computed(
+      () => store.getters["auth/isAuthenticated"]
+    );
+
+    onMounted(() => {
+      // ...
+
+      // Gọi action để lấy thông tin người dùng nếu đã có token
+      if (store.state.auth.token) {
+        store.dispatch("auth/fetchUser");
+      }
+    });
+
+    // Theo dõi sự thay đổi của isAuthenticated để chuyển hướng nếu cần
+    watch(isAuthenticated, (newVal) => {
+      if (!newVal) {
+        router.push("/dang-nhap");
+      }
+    });
+
+    const logout = () => {
+      store.dispatch("auth/logout", { router });
+    };
+
     return {
       leftDrawerOpen,
       navs,
+      isAuthenticated,
+      logout,
     };
   },
 };

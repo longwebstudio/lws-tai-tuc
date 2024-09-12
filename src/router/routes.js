@@ -5,24 +5,31 @@ const routes = [
     children: [
       {
         path: "",
-        name: "danh-sach-bao-hiem",
-        component: () => import("pages/DanhSachBaoHiem.vue"),
+        name: "TrangChu",
+        component: () => import("pages/Index.vue"),
+        meta: { requiresAuth: true }, // Yêu cầu xác thực để truy cập trang chủ
       },
       {
         path: "khach-hang-hop-dong",
         component: () => import("pages/CustomerContract.vue"),
+        meta: { requiresAuth: true }, // Yêu cầu xác thực
       },
-      { path: "tai-tuc", component: () => import("pages/Renewal.vue") },
       {
-        path: "/hop-dong-het-han",
-        component: () => import("pages/ExpiredContracts.vue"),
+        path: "tai-tuc",
+        component: () => import("pages/Renewal.vue"),
+        meta: { requiresAuth: true }, // Yêu cầu xác thực
       },
-      // ... các trang khác nếu cần
+      {
+        path: "hop-dong-het-han",
+        component: () => import("pages/ExpiredContracts.vue"),
+        meta: { requiresAuth: true }, // Yêu cầu xác thực
+      },
     ],
   },
-  { path: "/dang-nhap", component: () => import("pages/Login.vue") },
-  // Always leave this as last one,
-  // but you can also remove it
+
+  { path: "/dang-nhap", component: () => import("pages/LoginPage.vue") },
+  { path: "/dang-ky", component: () => import("pages/RegisterPage.vue") },
+
   // Luôn đặt route này ở cuối cùng
   {
     path: "/:catchAll(.*)*",

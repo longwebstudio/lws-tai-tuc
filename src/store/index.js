@@ -5,6 +5,7 @@ import baohiem from "./baohiem";
 import khachHangModule from "./khachHang";
 import hopDongModule from "./hopDong";
 import taiTucModule from "./taiTuc";
+import authModule from "./auth";
 
 /*
  * If not building with SSR mode, you can
@@ -22,6 +23,7 @@ export default store(function (/* { ssrContext } */) {
       khachHang: khachHangModule,
       hopDong: hopDongModule,
       taiTuc: taiTucModule,
+      auth: authModule,
       // ... các module khác
     },
 

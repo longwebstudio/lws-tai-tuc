@@ -1,6 +1,5 @@
 export default {
   danhSachKhachHangCanTaiTucLoc(state, getters, rootState, rootGetters) {
-    // Lấy danh sách khách hàng cần tái tục từ state của module taiTuc
     let danhSachLoc = state.danhSachKhachHangCanTaiTuc;
 
     // Lọc theo loại bảo hiểm
@@ -20,5 +19,22 @@ export default {
     }
 
     return danhSachLoc;
+  },
+
+  tongSoKhachHangCanTaiTuc(state, getters) {
+    // Sử dụng getter đã lọc để tính tổng số
+    return getters.danhSachKhachHangCanTaiTucLoc.length;
+  },
+
+  soLuongHopDongDaTaiTuc(state, getters) {
+    return getters.danhSachKhachHangCanTaiTucLoc.filter(
+      (kh) => kh.trangThaiTaiTuc === "Đã tái tục"
+    ).length;
+  },
+
+  tyLeTaiTuc(state, getters) {
+    const tongSo = getters.tongSoKhachHangCanTaiTuc;
+    if (tongSo === 0) return 0;
+    return ((getters.soLuongHopDongDaTaiTuc / tongSo) * 100).toFixed(2);
   },
 };
