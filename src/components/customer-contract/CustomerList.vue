@@ -30,10 +30,10 @@
 
         <q-item-section>
           <q-item-label @click="chonKhachHang(khachHang)">{{
-            khachHang.hoTen
+            khachHang.ho_ten
           }}</q-item-label>
           <q-item-label caption lines="2">
-            <div>{{ khachHang.soDienThoai }}</div>
+            <div>{{ khachHang.so_dien_thoai2 || khachHang.so_dien_thoai }}</div>
             <div>{{ khachHang.email }}</div>
           </q-item-label>
         </q-item-section>
@@ -100,8 +100,9 @@ export default {
         const searchTerm = searchText.value.toLowerCase();
         ketQua = ketQua.filter(
           (khachHang) =>
-            khachHang.hoTen.toLowerCase().includes(searchTerm) ||
-            khachHang.soDienThoai.includes(searchTerm) ||
+            khachHang.ho - ten.toLowerCase().includes(searchTerm) ||
+            khachHang.so_dien_thoai.includes(searchTerm) ||
+            khachHang.so_dien_thoai2.includes(searchTerm) ||
             khachHang.email.toLowerCase().includes(searchTerm)
         );
       }
