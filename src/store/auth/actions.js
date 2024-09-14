@@ -27,7 +27,7 @@ export default {
   async logout({ commit }, { router }) {
     try {
       // Gọi API logout trước
-      await api.post("/api/logout");
+      // await api.post("/api/logout");
 
       // Sau khi logout thành công trên server, mới commit mutation LOGOUT
       commit("LOGOUT");

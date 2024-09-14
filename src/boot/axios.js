@@ -8,7 +8,9 @@ import axios from "axios";
 // "export default () => {}" function below (which runs individually
 // for each client)
 const api = axios.create({
-  baseURL: process.env.API_BASE_URL,
+  baseURL:
+    "https://www.longwebstudio.net/wordpress/wp-content/app/" ||
+    process.env.API_BASE_URL,
   headers: {
     Authorization: `Bearer ${localStorage.getItem("token")}`,
   },
