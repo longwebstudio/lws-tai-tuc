@@ -87,31 +87,32 @@ export default {
   setup(props, { emit }) {
     const store = useStore();
     const searchText = ref("");
-    const filterLoaiBaoHiem = ref("Tất cả");
+    const filterLoaiBaoHiem = ref(1);
 
     const loaiBaoHiemOptions = computed(
       () => store.state.taiTuc.loaiBaoHiemOptions
     );
 
     const danhSachKhachHangLoc = computed(() => {
+      console.log(filterLoaiBaoHiem.value);
       let ketQua = props.danhSachKhachHang;
 
       if (searchText.value) {
         const searchTerm = searchText.value.toLowerCase();
         ketQua = ketQua.filter(
           (khachHang) =>
-            khachHang.ho - ten.toLowerCase().includes(searchTerm) ||
-            khachHang.so_dien_thoai.includes(searchTerm) ||
-            khachHang.so_dien_thoai2.includes(searchTerm) ||
-            khachHang.email.toLowerCase().includes(searchTerm)
+            khachHang.ho_ten.toLowerCase().includes(searchTerm) ||
+            khachHang.so_dien_thoai?.includes(searchTerm) ||
+            khachHang.so_dien_thoai2?.includes(searchTerm) ||
+            khachHang.email?.toLowerCase().includes(searchTerm)
         );
       }
 
-      if (filterLoaiBaoHiem.value !== "Tất cả") {
+      if (filterLoaiBaoHiem.value !== 1) {
         ketQua = ketQua.filter((khachHang) => {
           // Lọc các hợp đồng của khách hàng theo loại bảo hiểm
-          const hopDongsLoc = khachHang.hop_dongs.filter(
-            (hopDong) => hopDong.loaiBaoHiem === filterLoaiBaoHiem.value
+          const hopDongsLoc = khachHang.hop_dong_bao_hiem.filter(
+            (hopDong) => hopDong.loai_bao_hiem_id == filterLoaiBaoHiem.value
           );
           // Nếu có ít nhất một hợp đồng phù hợp, giữ lại khách hàng
           return hopDongsLoc.length > 0;

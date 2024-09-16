@@ -22,9 +22,9 @@ export default {
     try {
       const response = await api.get("/api/bao-hiem");
       // Chuyển đổi dữ liệu từ backend thành định dạng phù hợp cho QSelect
-      const loaiBaoHiemOptions = response.data.map((tenLoai) => ({
-        label: tenLoai,
-        value: tenLoai,
+      const loaiBaoHiemOptions = response.data.map(({ id, ten_loai }) => ({
+        label: ten_loai,
+        value: id,
       }));
       commit("SET_DANH_SACH_LOAI_BAO_HIEM", loaiBaoHiemOptions);
     } catch (error) {
