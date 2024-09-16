@@ -3,11 +3,7 @@
     <div class="row q-col-gutter-md">
       <div class="col-12">
         <q-toolbar>
-          <!-- <q-btn flat round dense icon="menu" />
-          <q-toolbar-title>Quản lý Khách hàng & Hợp đồng</q-toolbar-title>
--->
           <q-space />
-
           <q-btn
             label="Thêm khách hàng mới"
             color="primary"
@@ -109,10 +105,9 @@ export default {
     );
     const danhSachHopDongTheoKhachHang = computed(() => {
       if (khachHangDangChon.value) {
-        return store.state.khachHang.khachHangDangChon.hop_dongs;
-        // return store.getters["hopDong/danhSachHopDongTheoKhachHangId"](
-        //   khachHangDangChon.value.id
-        // );
+        return store.getters["hopDong/danhSachHopDongTheoKhachHangId"](
+          khachHangDangChon.value.id
+        );
       } else {
         return [];
       }

@@ -1,9 +1,9 @@
 {
   "name": "bao-hiem-xe-may",
   "version": "0.0.1",
-  "description": "A Quasar Project",
-  "productName": "Quasar App",
-  "author": "Long Web Studio <lovanlong@amycos.vn>",
+  "description": "Ứng dụng tái tục bảo hiểm",
+  "productName": "LWS App",
+  "author": "Long Web Studio <contact@longwebstudio.net>",
   "private": true,
   "scripts": {
     "lint": "eslint --ext .js,.vue ./",

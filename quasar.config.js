@@ -188,7 +188,7 @@ module.exports = configure(function (/* ctx */) {
       builder: {
         // https://www.electron.build/configuration/configuration
 
-        appId: "bao-hiem-xe-may",
+        appId: "lws-tai-tuc-bao-hiem",
       },
     },
 

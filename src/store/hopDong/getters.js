@@ -30,7 +30,7 @@ export default {
   },
   danhSachHopDongTheoKhachHangId: (state) => (khachHangId) => {
     return state.danhSachHopDong.filter(
-      (hopDong) => hopDong.khachHangId === khachHangId
+      (hopDong) => hopDong.khach_hang && hopDong.khach_hang.id === khachHangId
     );
   },
   danhSachHopDongDaHetHan: (state) => {
