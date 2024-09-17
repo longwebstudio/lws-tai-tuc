@@ -2,8 +2,12 @@
   <div>
     <div class="text-h6 q-mb-md">Danh sách hợp đồng của {{ tenKhachHang }}</div>
 
-    <q-btn label="Thêm hợp đồng mới" color="primary" @click="themHopDongMoi" />
-
+    <q-btn
+      v-if="khachHangId"
+      label="Thêm hợp đồng mới"
+      color="primary"
+      @click="themHopDongMoi"
+    />
     <q-list bordered separator class="q-mt-md">
       <q-item
         v-for="hopDong in danhSachHopDong"
@@ -12,11 +16,11 @@
         v-ripple
       >
         <q-item-section>
-          <q-item-label>{{ hopDong.tenGoiBaoHiem }}</q-item-label>
-          <q-item-label caption lines="2">
-            <div>Loại: {{ hopDong.loaiBaoHiem }}</div>
-            <div>Ngày bắt đầu: {{ hopDong.ngayBatDau }}</div>
-            <div>Ngày kết thúc: {{ hopDong.ngayKetThuc }}</div>
+          <q-item-label>{{ hopDong.ten_goi_bao_hiem }}</q-item-label>
+          <q-item-label caption>
+            <div>Loại: {{ hopDong.loai_bao_hiem.ten_loai }}</div>
+            <div>Ngày bắt đầu: {{ hopDong.ngay_bat_dau }}</div>
+            <div>Ngày kết thúc: {{ hopDong.ngay_ket_thuc }}</div>
           </q-item-label>
         </q-item-section>
 
@@ -69,6 +73,7 @@
 import { computed, ref } from "vue";
 import { useStore } from "vuex";
 import ThuTienForm from "components/customer-contract/ThuTienForm.vue";
+import { useQuasar } from "quasar";
 
 export default {
   components: {
@@ -87,12 +92,13 @@ export default {
   emits: ["them-hop-dong", "sua-hop-dong", "xoa-hop-dong"],
   setup(props, { emit }) {
     const store = useStore();
+    const $q = useQuasar();
 
     const tenKhachHang = computed(() => {
       const khachHang = store.getters["khachHang/getKhachHangById"](
         props.khachHangId
       );
-      return khachHang ? khachHang.hoTen : "";
+      return khachHang ? khachHang.ho_ten : "";
     });
 
     const dialogThuTienMo = ref(false);
@@ -107,7 +113,14 @@ export default {
     };
 
     const xoaHopDong = (hopDongId) => {
-      emit("xoa-hop-dong", hopDongId);
+      $q.dialog({
+        title: "Xác nhận xóa hợp đồng",
+        message: "Bạn có chắc chắn muốn xóa hợp đồng này không?",
+        cancel: true,
+        persistent: true,
+      }).onOk(() => {
+        emit("xoa-hop-dong", hopDongId);
+      });
     };
 
     const moDialogThuTien = (hopDongId) => {

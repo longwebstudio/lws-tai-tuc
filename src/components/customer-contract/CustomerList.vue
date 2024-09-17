@@ -94,7 +94,6 @@ export default {
     );
 
     const danhSachKhachHangLoc = computed(() => {
-      console.log(filterLoaiBaoHiem.value);
       let ketQua = props.danhSachKhachHang;
 
       if (searchText.value) {

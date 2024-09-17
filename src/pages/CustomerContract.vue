@@ -66,8 +66,8 @@
 
     <q-dialog v-model="dialogHopDongMo" persistent>
       <contract-form
-        :hop-dong="hopDongDangChon"
-        :khach-hang-id="khachHangDangChon ? khachHangDangChon.id : null"
+        :hopDong="hopDongDangChon"
+        :khachHangId="khachHangDangChon ? khachHangDangChon.id : null"
         @dong-dialog="dongDialogHopDong"
         @luu-thong-tin="luuThongTinHopDong"
       />

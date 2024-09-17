@@ -11,48 +11,46 @@
         }}
       </div>
     </q-card-section>
-
+    Khachs hangf id {{ khachHangId }}
     <q-form @submit="submitForm" class="q-gutter-md">
       <q-select
-        v-model="form.loaiBaoHiem"
+        v-model="form.loai_bao_hiem_id"
         :options="loaiBaoHiemOptions"
         label="Loại bảo hiểm"
         emit-value
         map-options
         :disable="mode === 'gia-han'"
         lazy-rules
-        :rules="[
-          (val) => (val && val.length > 0) || 'Vui lòng chọn loại bảo hiểm',
-        ]"
+        :rules="[(val) => (val && val > 1) || 'Vui lòng chọn loại bảo hiểm']"
       />
 
       <q-input
-        v-model="form.tenGoiBaoHiem"
+        v-model="form.ten_goi_bao_hiem"
         label="Tên gói bảo hiểm"
         lazy-rules
         :rules="[(val) => (val && val.length > 0) || 'Vui lòng nhập tên gói']"
       />
       <q-input
-        v-model="form.ngayBatDau"
+        v-model="form.ngay_bat_dau"
         label="Ngày bắt đầu"
         type="date"
         :disable="mode === 'gia-han'"
       />
       <q-input
-        v-model="form.ngayKetThuc"
+        v-model="form.ngay_ket_thuc"
         label="Ngày kết thúc"
         type="date"
         :rules="[
           (val) => (val && val.length > 0) || 'Vui lòng nhập ngày kết thúc',
           (val) =>
-            val > form.ngayBatDau || 'Ngày kết thúc phải sau ngày bắt đầu',
+            val > form.ngay_bat_dau || 'Ngày kết thúc phải sau ngày bắt đầu',
         ]"
       />
-      <q-input v-model="form.mucPhi" label="Mức phí" type="number" />
+      <q-input v-model="form.phi_bao_hiem" label="Mức phí" type="number" />
 
       <q-select
         v-if="mode === 'gia-han'"
-        v-model="form.phuongThucDong"
+        v-model="form.phuong_thuc_dong"
         :options="phuongThucDongOptions"
         label="Phương thức đóng"
         emit-value
@@ -95,13 +93,17 @@ export default {
     const store = useStore();
     const form = ref({
       id: null,
-      khachHangId: props.khachHangId,
-      loaiBaoHiem: null,
-      tenGoiBaoHiem: "",
-      ngayBatDau: "",
-      ngayKetThuc: "",
-      mucPhi: null,
-      phuongThucDong: null,
+      khach_hang_id: props.khachHangId,
+      loai_bao_hiem_id: null,
+      ten_goi_bao_hiem: "",
+      ngay_bat_dau: new Date().toISOString().slice(0, 10),
+      ngay_ket_thuc: new Date(
+        new Date().setFullYear(new Date().getFullYear() + 1)
+      )
+        .toISOString()
+        .slice(0, 10), // Tính ngày kết thúc 1 năm sau,
+      phi_bao_hiem: null,
+      phuong_thuc_dong: 12,
     });
 
     const loaiBaoHiemOptions = computed(
@@ -127,34 +129,34 @@ export default {
         // Trường hợp gia hạn hợp đồng
         const khachHangDangChon = store.state.taiTuc.khachHangDangChon;
         const hopDongCu = store.getters["hopDong/getHopDongById"](
-          khachHangDangChon.hopDongId
+          khachHangDangChon.hop_dong_id
         );
 
-        form.value.khachHangId = props.khachHangId;
-        form.value.ngayBatDau = ngayTiepTheo(hopDongCu.ngayKetThuc);
-        form.value.loaiBaoHiem = hopDongCu.loaiBaoHiem;
-        form.value.tenGoiBaoHiem = hopDongCu.tenGoiBaoHiem;
-        form.value.mucPhi = hopDongCu.mucPhi;
+        form.value.khach_hang_id = props.khachHangId;
+        form.value.ngay_bat_dau = ngayTiepTheo(hopDongCu.ngay_ket_thuc);
+        form.value.loai_bao_hiem_id = hopDongCu.loai_bao_hiem_id;
+        form.value.ten_goi_bao_hiem = hopDongCu.ten_goi_bao_hiem;
+        form.value.phi_bao_hiem = hopDongCu.phi_bao_hiem;
       }
     });
 
     // Theo dõi sự thay đổi của phuongThucDong, ngày bắt đầu, và ngày kết thúc cũ (nếu có)
     watch(
       [
-        () => form.value.phuongThucDong,
-        () => form.value.ngayBatDau,
-        () => props.hopDong?.ngayKetThuc,
+        () => form.value.phuong_thuc_dong,
+        () => form.value.ngay_bat_dau,
+        () => props.hopDong?.ngay_ket_thuc,
       ],
       () => {
         if (
           props.mode === "gia-han" &&
-          form.value.phuongThucDong &&
-          form.value.ngayBatDau
+          form.value.phuong_thuc_dong &&
+          form.value.ngay_bat_dau
         ) {
-          form.value.ngayKetThuc = tinhNgayKetThuc(
-            form.value.ngayBatDau,
-            props.hopDong?.ngayKetThuc,
-            form.value.phuongThucDong
+          form.value.ngay_ket_thuc = tinhNgayKetThuc(
+            form.value.ngay_bat_dau,
+            props.hopDong?.ngay_ket_thuc,
+            form.value.phuong_thuc_dong
           );
         }
       }
