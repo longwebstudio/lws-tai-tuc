@@ -5,9 +5,9 @@
     </q-card-section>
 
     <q-form @submit="submitForm" class="q-gutter-md">
-      <q-input v-model="form.maSoBhxh" label="Mã số BHXH" />
+      <q-input v-model="form.ma_so_bhxh" label="Mã số BHXH" />
       <q-input
-        v-model="form.hoTen"
+        v-model="form.ho_ten"
         label="Họ và tên"
         lazy-rules
         :rules="[(val) => (val && val.length > 0) || 'Vui lòng nhập họ tên']"
@@ -41,12 +41,12 @@ export default {
     const store = useStore();
     const form = ref({
       id: null,
-      hoTen: "",
+      ho_ten: "",
       ngaySinh: "",
       soDienThoai: "",
       email: "",
       diaChi: "",
-      maSoBhxh: "", // Thêm trường maSoBhxh
+      ma_so_bhxh: "", // Thêm trường maSoBhxh
     });
 
     onMounted(() => {
