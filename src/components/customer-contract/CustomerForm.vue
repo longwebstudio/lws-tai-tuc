@@ -12,10 +12,15 @@
         lazy-rules
         :rules="[(val) => (val && val.length > 0) || 'Vui lòng nhập họ tên']"
       />
-      <q-input v-model="form.ngaySinh" label="Ngày sinh" type="date" />
-      <q-input v-model="form.soDienThoai" label="Số điện thoại" />
+      <q-input v-model="form.ngay_sinh" label="Ngày sinh" type="date" />
+      <q-input
+        disable
+        v-model="form.so_dien_thoai"
+        label="Số điện thoại (đăng ký)"
+      />
+      <q-input v-model="form.so_dien_thoai2" label="Số điện thoại (liên hệ)" />
       <q-input v-model="form.email" label="Email" type="email" />
-      <q-input v-model="form.diaChi" label="Địa chỉ" type="textarea" />
+      <q-input v-model="form.dia_chi" label="Địa chỉ" type="textarea" />
 
       <q-card-actions align="right" class="text-primary">
         <q-btn flat label="Đóng" v-close-popup />
@@ -42,10 +47,11 @@ export default {
     const form = ref({
       id: null,
       ho_ten: "",
-      ngaySinh: "",
-      soDienThoai: "",
+      ngay_sinh: "",
+      so_dien_thoai: "",
+      so_dien_thoai2: "",
       email: "",
-      diaChi: "",
+      dia_chi: "",
       ma_so_bhxh: "", // Thêm trường maSoBhxh
     });
 
