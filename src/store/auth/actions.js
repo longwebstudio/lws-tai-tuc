@@ -12,7 +12,7 @@ export default {
         position: "top",
       });
       // Chuyển hướng đến trang chủ sau khi đăng nhập
-      router.push("/");
+      // router.push("/");
     } catch (error) {
       console.error("Lỗi đăng nhập:", error);
       Notify.create({

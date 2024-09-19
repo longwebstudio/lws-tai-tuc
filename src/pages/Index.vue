@@ -107,9 +107,10 @@ export default {
 
     onMounted(async () => {
       // Gọi các action để lấy dữ liệu từ store khi component được tạo
+
       await store.dispatch("khachHang/layDanhSachKhachHang");
       await store.dispatch("hopDong/layDanhSachHopDong");
-
+      store.dispatch("taiTuc/layDanhSachLoaiBaoHiem");
       // Vẽ biểu đồ sau khi đã có dữ liệu
       veBieuDoTyLeTaiTuc();
     });

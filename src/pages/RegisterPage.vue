@@ -115,6 +115,11 @@ export default {
       return passwordPattern.test(val);
     };
 
+    // Kiểm tra trạng thái đăng nhập khi thành phần được mounted
+    if (store.getters["auth/isAuthenticated"]) {
+      router.push("/");
+    }
+
     const submitRegister = async () => {
       try {
         const response = await api.post("/api/register", {

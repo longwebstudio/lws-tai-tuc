@@ -8,14 +8,14 @@ import { useStore } from "vuex";
 
 export default {
   name: "App",
-  setup() {
-    const store = useStore();
+  // setup() {
+  //   const store = useStore();
 
-    onMounted(() => {
-      store.dispatch("taiTuc/layDanhSachLoaiBaoHiem");
-    });
+  //   onMounted(() => {
+  //     store.dispatch("taiTuc/layDanhSachLoaiBaoHiem");
+  //   });
 
-    return {};
-  },
+  //   return {};
+  // },
 };
 </script>

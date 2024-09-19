@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 
@@ -58,14 +58,20 @@ export default {
     const store = useStore();
     const router = useRouter(); // Lấy instance của router
 
+    // Kiểm tra trạng thái đăng nhập khi thành phần được mounted
+    if (store.getters["auth/isAuthenticated"]) {
+      router.push("/");
+    }
+
     const submitLogin = async () => {
-      store.dispatch("auth/login", {
+      await store.dispatch("auth/login", {
         userData: {
           login: username.value,
           password: password.value,
         },
         router,
       });
+      window.location.reload(true);
     };
 
     return {
