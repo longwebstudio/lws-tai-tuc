@@ -1,6 +1,8 @@
 <template>
   <div>
-    <div class="text-h6 q-mb-md">Danh sách hợp đồng của {{ tenKhachHang }}</div>
+    <div v-if="tenKhachHang" class="text-h6 q-mb-md">
+      Danh sách hợp đồng của {{ tenKhachHang }}
+    </div>
 
     <q-btn
       v-if="khachHangId"
@@ -82,7 +84,6 @@ export default {
   props: {
     khachHangId: {
       type: Number,
-      required: true,
     },
     danhSachHopDong: {
       type: Array,

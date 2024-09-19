@@ -20,7 +20,7 @@ export default {
   danhSachHopDongSapHetHan: (state) => {
     const ngayHienTai = new Date();
     return state.danhSachHopDong.filter((hopDong) => {
-      const ngayHetHan = new Date(hopDong.ngayKetThuc);
+      const ngayHetHan = new Date(hopDong.ngay_ket_thuc);
       // Kiểm tra nếu hợp đồng sắp hết hạn (ví dụ: trong vòng 30 ngày tới)
       return (
         ngayHetHan > ngayHienTai &&
@@ -35,9 +35,8 @@ export default {
   },
   danhSachHopDongDaHetHan: (state) => {
     const ngayHienTai = new Date();
-    return state.danhSachHopDong;
     return state.danhSachHopDong.filter((hopDong) => {
-      const ngayKetThuc = new Date(hopDong.ngayKetThuc);
+      const ngayKetThuc = new Date(hopDong.ngay_ket_thuc);
       return ngayKetThuc < ngayHienTai;
     });
   },

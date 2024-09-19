@@ -114,10 +114,6 @@ export default {
     });
     const hopDongDangChon = computed(() => store.state.hopDong.hopDongDangChon);
 
-    onMounted(() => {
-      store.dispatch("khachHang/layDanhSachKhachHang");
-      store.dispatch("hopDong/layDanhSachHopDong");
-    });
 
     const chonKhachHang = (khachHang) => {
       store.dispatch("khachHang/chonKhachHang", khachHang);

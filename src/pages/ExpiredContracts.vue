@@ -2,14 +2,7 @@
   <q-page class="q-pa-md">
     <div class="row q-col-gutter-md">
       <div class="col-12">
-        <q-toolbar>
-          <q-btn flat round dense icon="menu" />
-          <q-toolbar-title>Hợp đồng hết hạn</q-toolbar-title>
-        </q-toolbar>
-      </div>
-
-      <div class="col-12">
-        <contract-list :danh-sach-hop-dong="danhSachHopDongDaHetHan" />
+        <contract-list :danhSachHopDong="danhSachHopDongDaHetHan" />
       </div>
     </div>
   </q-page>
@@ -27,12 +20,8 @@ export default {
     const store = useStore();
 
     const danhSachHopDongDaHetHan = computed(
-      () => store.state.hopDong.danhSachHopDongDaHetHan
+      () => store.getters["hopDong/danhSachHopDongDaHetHan"]
     );
-
-    onMounted(() => {
-      store.dispatch("hopDong/layDanhSachHopDongDaHetHan");
-    });
 
     return {
       danhSachHopDongDaHetHan,

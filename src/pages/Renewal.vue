@@ -28,7 +28,8 @@
       </div>
 
       <div class="col-12 col-md-8">
-        <q-list bordered separator>
+        <ContractList :danhSachHopDong="danhSachHopDongSapHetHan" />
+        <!-- <q-list bordered separator>
           <q-item
             v-for="khachHang in danhSachKhachHangCanTaiTucLoc"
             :key="khachHang.id"
@@ -55,15 +56,15 @@
           </q-item>
 
           <div
-            v-if="!danhSachKhachHangCanTaiTucLoc.length"
+            v-if="!danhSachHopDongSapHetHan.length"
             class="text-center q-pa-md"
           >
             Không có khách hàng nào.
           </div>
-        </q-list>
+        </q-list> -->
       </div>
 
-      <div class="col-12 col-md-4">
+      <!-- <div class="col-12 col-md-4">
         <q-card>
           <q-card-section>
             <div class="text-h6">Báo cáo tái tục</div>
@@ -79,17 +80,17 @@
             <div class="text-subtitle1">Tỷ lệ tái tục: {{ tyLeTaiTuc }}%</div>
           </q-card-section>
         </q-card>
-      </div>
+      </div> -->
     </div>
 
-    <q-dialog v-model="dialogChiTietMo" persistent>
+    <!-- <q-dialog v-model="dialogChiTietMo" persistent>
       <renewal-dialog
         :khach-hang="khachHangDangChon"
         @dong-dialog="dongDialogChiTiet"
         @cap-nhat-thong-tin-tai-tuc="capNhatThongTinTaiTuc"
         @gui-thong-bao-tai-tuc="guiThongBaoTaiTuc"
       />
-    </q-dialog>
+    </q-dialog> -->
   </q-page>
 </template>
 
@@ -97,11 +98,11 @@
 import { ref, computed, onMounted } from "vue";
 import { useStore } from "vuex";
 import { date } from "quasar";
-import RenewalDialog from "components/renewal/RenewalDialog.vue";
+import ContractList from "src/components/customer-contract/ContractList.vue";
 
 export default {
   name: "TaiTuc",
-  components: { RenewalDialog },
+  components: { ContractList },
   setup() {
     const store = useStore();
     const dialogChiTietMo = ref(false);
@@ -116,8 +117,8 @@ export default {
       set: (value) => store.dispatch("taiTuc/capNhatTrangThaiTaiTuc", value),
     });
 
-    const danhSachKhachHangCanTaiTucLoc = computed(
-      () => store.getters["taiTuc/danhSachKhachHangCanTaiTucLoc"]
+    const danhSachHopDongSapHetHan = computed(
+      () => store.getters["hopDong/danhSachHopDongSapHetHan"]
     );
     const khachHangDangChon = ref(null);
 
@@ -150,11 +151,6 @@ export default {
       "Phát sinh thành công BHXH",
       "Từ chối",
     ];
-
-    onMounted(() => {
-      store.dispatch("taiTuc/layDanhSachKhachHangCanTaiTuc");
-      store.dispatch("taiTuc/layDanhSachLoaiBaoHiem");
-    });
 
     const formatDate = (dateString) => {
       return date.formatDate(dateString, "DD/MM/YYYY");
@@ -191,7 +187,7 @@ export default {
       loaiBaoHiemOptions,
       trangThaiTaiTuc,
       trangThaiTaiTucOptions,
-      danhSachKhachHangCanTaiTucLoc,
+      danhSachHopDongSapHetHan,
       khachHangDangChon,
       tongSoKhachHangCanTaiTuc,
       soLuongHopDongDaTaiTuc,
