@@ -10,14 +10,14 @@
               <q-form @submit.prevent="submitRegister" class="q-gutter-md">
                 <q-input
                   v-model="username"
-                  label="Tên đăng nhập"
+                  label="Số điện thoại"
                   lazy-rules
                   :rules="[
                     (val) =>
-                      (val && val.length > 0) || 'Vui lòng nhập tên đăng nhập',
+                      (val && val.length > 0) || 'Vui lòng nhập Số điện thoại',
                     (val) =>
-                      val.length >= 3 ||
-                      'Tên đăng nhập phải có ít nhất 3 ký tự',
+                      val.length >= 10 ||
+                      'Số điện thoại phải có ít nhất 10 ký tự',
                   ]"
                 />
 
@@ -52,6 +52,9 @@
                       (val && val.length > 0) || 'Vui lòng nhập mật khẩu',
                     (val) =>
                       val.length >= 8 || 'Mật khẩu phải có ít nhất 8 ký tự',
+                    (val) =>
+                      isValidPassword(val) ||
+                      'Mật khẩu phải bao gồm chữ cái in hoa, chữ thường, số và ký tự đặc biệt',
                   ]"
                 />
 
@@ -106,11 +109,17 @@ export default {
       return emailPattern.test(val);
     };
 
+    const isValidPassword = (val) => {
+      const passwordPattern =
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).*$/;
+      return passwordPattern.test(val);
+    };
+
     const submitRegister = async () => {
       try {
         const response = await api.post("/api/register", {
           username: username.value, // Gửi username lên server
-          tenDaiLy: tenDaiLy.value,
+          ten_dai_ly: tenDaiLy.value,
           email: email.value,
           password: password.value,
           password_confirmation: passwordConfirmation.value,
@@ -129,6 +138,11 @@ export default {
         });
       } catch (error) {
         console.error("Lỗi đăng ký:", error);
+        Notify.create({
+          message: "Lỗi đăng ký!",
+          color: "negative",
+          position: "top",
+        });
         // Xử lý lỗi và hiển thị thông báo (có thể bạn muốn làm điều này ở một nơi khác)
       }
     };
@@ -140,6 +154,7 @@ export default {
       password,
       passwordConfirmation,
       isValidEmail,
+      isValidPassword,
       submitRegister,
     };
   },
