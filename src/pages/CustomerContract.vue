@@ -76,7 +76,7 @@
 </template>
 
 <script>
-import { ref, computed, onMounted } from "vue";
+import { ref, computed } from "vue";
 import { useStore } from "vuex";
 import CustomerList from "components/customer-contract/CustomerList.vue";
 import ContractList from "components/customer-contract/ContractList.vue";
@@ -113,7 +113,6 @@ export default {
       }
     });
     const hopDongDangChon = computed(() => store.state.hopDong.hopDongDangChon);
-
 
     const chonKhachHang = (khachHang) => {
       store.dispatch("khachHang/chonKhachHang", khachHang);

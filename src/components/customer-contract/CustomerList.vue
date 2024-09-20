@@ -2,7 +2,24 @@
   <div>
     <div class="row q-col-gutter-sm q-mb-md">
       <div class="col-6">
-        <q-input v-model="searchText" label="Tìm kiếm" dense outlined />
+        <q-input
+          v-model="searchText"
+          debounce="500"
+          label="Tìm kiếm"
+          dense
+          outlined
+          @keyup.enter="traCuuBaoHiem"
+        >
+          <template v-slot:append>
+            <q-icon v-if="searchText === ''" name="search" />
+            <q-icon
+              v-else
+              name="clear"
+              class="cursor-pointer"
+              @click="searchText = ''"
+            />
+          </template>
+        </q-input>
       </div>
       <div class="col-6">
         <q-select
@@ -64,10 +81,16 @@
         Không có khách hàng nào.
       </div>
     </q-list>
+
+    <q-alert v-if="loiTraCuu" type="negative" class="q-mt-sm">
+      <!-- Hiển thị lỗi -->
+      {{ loiTraCuu }}
+    </q-alert>
   </div>
 </template>
 
 <script>
+import { xacDinhLoaiChuoi } from "src/utils/chuoi-utils";
 import { ref, computed } from "vue";
 import { useStore } from "vuex";
 
@@ -87,6 +110,7 @@ export default {
   setup(props, { emit }) {
     const store = useStore();
     const searchText = ref("");
+    const loiTraCuu = ref(null);
     const filterLoaiBaoHiem = ref(1);
 
     const loaiBaoHiemOptions = computed(
@@ -121,6 +145,27 @@ export default {
       return ketQua;
     });
 
+    const traCuuBaoHiem = async () => {
+      const loaiChuoi = xacDinhLoaiChuoi(searchText.value);
+
+      try {
+        let response;
+        if (loaiChuoi === "Dãy 10 chữ số cuối") {
+          //tra cứu traCuuBaoHiemXaHoi
+        } else {
+          loiTraCuu.value = "Nhập mã số BHXH và nhấn ENTER để thêm khách hàng";
+          return;
+        }
+
+        ketQuaTraCuu.value = response; // Cập nhật kết quả tra cứu
+        loiTraCuu.value = null; // Xóa lỗi
+      } catch (error) {
+        // Xử lý lỗi khi gọi API
+        loiTraCuu.value = error.message; // Cập nhật lỗi
+        ketQuaTraCuu.value = null; // Xóa kết quả
+      }
+    };
+
     const chonKhachHang = (khachHang) => {
       emit("chon-khach-hang", khachHang);
     };
@@ -146,6 +191,8 @@ export default {
       themKhachHangMoi,
       suaKhachHang,
       xoaKhachHang,
+      traCuuBaoHiem,
+      loiTraCuu,
     };
   },
 };
