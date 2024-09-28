@@ -5,13 +5,26 @@
     </q-card-section>
 
     <q-form @submit="submitForm" class="q-gutter-md">
-      <q-input v-model="form.ma_so_bhxh" label="Mã số BHXH" />
+      <q-input
+        v-model="form.ma_so_bhxh"
+        label="Mã số BHXH"
+        @blur="layThongTinBaoHiem"
+      />
       <q-input
         v-model="form.ho_ten"
         label="Họ và tên"
         lazy-rules
-        :rules="[(val) => (val && val.length > 0) || 'Vui lòng nhập họ tên']"
+        :rules="[
+          (val) => {
+            if (form.ma_so_bhxh && form.ma_so_bhxh.length > 0) {
+              return true; // No validation if ma_so_bhxh is filled
+            } else {
+              return (val && val.length > 0) || 'Vui lòng nhập họ tên';
+            }
+          },
+        ]"
       />
+
       <q-input v-model="form.ngay_sinh" label="Ngày sinh" type="date" />
       <q-input
         disable
@@ -33,6 +46,9 @@
 <script>
 import { ref, onMounted } from "vue";
 import { useStore } from "vuex";
+import { kiemTraLoaiChuoi } from '@/utils/chuoi-utils';
+import { api } from "src/boot/axios";
+
 
 export default {
   props: {
@@ -70,10 +86,38 @@ export default {
       emit("dong-dialog");
     };
 
+    const layThongTinBaoHiem = async () => {
+      const maSoBHXH = form.value.ma_so_bhxh;
+      if (kiemTraLoaiChuoi(maSoBHXH) === "Dãy 10 chữ số cuối") {
+        try {
+          const response = await api.get(`/api/bhyts/${maSoBHXH}`);
+          const duLieuBaoHiem = response.data;
+          // Update form with data from duLieuBaoHiem
+          form.value.ho_ten = duLieuBaoHiem.hoTen || form.value.ho_ten;
+          form.value.ngay_sinh =
+            duLieuBaoHiem.ngaySinhDt || form.value.ngay_sinh;
+          form.value.so_dien_thoai =
+            duLieuBaoHiem.soDienThoai || form.value.so_dien_thoai;
+          form.value.so_dien_thoai2 =
+            duLieuBaoHiem.soDienThoai2 || form.value.so_dien_thoai2;
+          form.value.dia_chi = duLieuBaoHiem.diaChiLh || form.value.dia_chi;
+          // ... Update other fields similarly
+        } catch (error) {
+          console.error("Lỗi khi lấy thông tin bảo hiểm:", error);
+          // Handle error
+        }
+      } else {
+        console.error(
+          'Mã số BHXH không hợp lệ: Không phải là "Dãy 10 chữ số cuối"'
+        );
+      }
+    };
+
     return {
       form,
       submitForm,
       dongDialog,
+      layThongTinBaoHiem,
     };
   },
 };
